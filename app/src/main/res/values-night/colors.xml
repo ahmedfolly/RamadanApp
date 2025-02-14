@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#121212</color> <!-- True black for deep OLED dark mode -->
+    <color name="white">#E0E0E0</color> <!-- Light gray for text to reduce eye strain -->
+    <color name="primary">#81C784</color> <!-- Soft green for a modern, calm feel -->
+    <color name="onPrimary">#1B1B1B</color> <!-- Dark gray for contrast -->
+    <color name="secondary">#FFB74D</color> <!-- Muted orange for warmth -->
+    <color name="onSecondary">#232323</color> <!-- Dark gray for balance -->
+    <color name="background">#1E1E1E</color> <!-- Dark gray to avoid harsh black contrast -->
+    <color name="onBackground">#E3E3E3</color> <!-- Light gray for readability -->
+    <color name="greyColor">#6D6D6D</color> <!-- Softer gray for inactive states -->
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#2B2B2B</color> <!-- Deep gray for better contrast -->
+    <color name="white">#FFFFFF</color> <!-- Pure white for clarity -->
+    <color name="primary">#5EBC67</color> <!-- Fresh green (trustworthy, natural feel) -->
+    <color name="onPrimary">#FFFFFF</color> <!-- White for contrast on primary -->
+    <color name="secondary">#FF9F43</color> <!-- Warm, inviting orange for CTA buttons -->
+    <color name="onSecondary">#2D2D2D</color> <!-- Deep gray for contrast -->
+    <color name="background">#F8F9FA</color> <!-- Soft white with a tint of gray to reduce strain -->
+    <color name="onBackground">#000000</color> <!-- Deep gray for readability -->
+    <color name="greyColor">#B0B0B0</color> <!-- Muted gray for UI elements like dividers and placeholders -->
+
+</resources>
