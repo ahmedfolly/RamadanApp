@@ -29,7 +29,7 @@ class MainFragment : Fragment() {
 	private lateinit var playlistAdapter: PlayListAdapter
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		playlistAdapter = PlayListAdapter()
+		playlistAdapter = PlayListAdapter(this)
 	}
 
 	override fun onCreateView(

@@ -2,16 +2,16 @@ package com.example.ramadanapp.features.media.presentation.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ramadanapp.databinding.MainFragmentBinding
 import com.example.ramadanapp.databinding.PlaylistItemBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
 import com.example.ramadanapp.features.media.domain.model.Video
 
-class PlayListAdapter: ListAdapter<CategorizedPlayList, PlayListAdapter.PlayListVH>(PlayListDiffUtil()) {
+class PlayListAdapter(val mainFragment: MainFragment): ListAdapter<CategorizedPlayList, PlayListAdapter.PlayListVH>(PlayListDiffUtil()) {
 	private lateinit var _binding: PlaylistItemBinding
 	private val binding
 		get() = _binding
@@ -45,7 +45,8 @@ class PlayListAdapter: ListAdapter<CategorizedPlayList, PlayListAdapter.PlayList
 					adapter = videoAdapter
 				}
 				tvOpenPlaylist.setOnClickListener{
-
+					val action = MainFragmentDirections.actionMainFragmentToPlaylistFragment()
+					mainFragment.findNavController().navigate(action)
 				}
 			}
 		}
