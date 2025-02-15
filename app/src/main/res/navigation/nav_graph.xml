@@ -3,11 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/allProductsFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/allProductsFragment"
-        android:name="com.example.shopsphere.features.products.presentation.ui.AllProductsFragment"
+        android:id="@+id/mainFragment"
+        android:name="com.example.ramadanapp.features.media.presentation.ui.MainFragment"
         android:label="fragment_all_produts"
-        tools:layout="@layout/fragment_all_produts" />
+        tools:layout="@layout/main_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_playlistFragment"
+            app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_playlistFragment2"
+            app:destination="@id/playlistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistFragment"
+        android:name="com.example.ramadanapp.features.media.presentation.ui.PlaylistFragment"
+        android:label="fragment_playlist"
+        tools:layout="@layout/fragment_playlist" />
 </navigation>

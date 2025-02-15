@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.3"
 coil = "2.6.0"
+core = "12.1.1"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -23,6 +24,7 @@ ksp = "2.0.21-1.0.27"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }

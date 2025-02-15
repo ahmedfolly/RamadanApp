@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@color/background"
+    tools:context=".features.media.presentation.ui.MainFragment">
+
+    <RelativeLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="#9BB4A1"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/header_layout"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="أهلا بك "
+                style="@style/LargeText"
+                android:textColor="@color/white"
+                android:id="@+id/tv_welcome_message"/>
+            <ImageView
+                android:id="@+id/searchIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/search_24px"
+                />
+            <ImageView
+                android:id="@+id/notificationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_bell" />
+
+        </LinearLayout>
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/bannerImage"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:backgroundTint="@color/white"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            app:cardCornerRadius="16dp"-->
+<!--            android:layout_below="@id/header_layout"-->
+<!--            android:layout_marginStart="16dp"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            app:cardElevation="4dp">-->
+<!--           <RelativeLayout-->
+<!--               android:layout_width="match_parent"-->
+<!--               android:layout_height="match_parent">-->
+<!--               <ImageView-->
+<!--                   android:layout_width="match_parent"-->
+<!--                   android:layout_height="match_parent"-->
+<!--                   android:id="@+id/ivLastSeenImg"-->
+<!--                   android:scaleType="fitXY"-->
+<!--                   android:background="@android:color/darker_gray"-->
+<!--                   />-->
+<!--               <TextView-->
+<!--                   android:layout_width="match_parent"-->
+<!--                   android:layout_height="wrap_content"-->
+<!--                   android:padding="16dp"-->
+<!--                   android:text="الرقية الشرعية"-->
+<!--                   android:textColor="@color/white"-->
+<!--                   android:background="@drawable/blur_background"-->
+<!--                   android:layout_alignParentBottom="true"-->
+<!--                   android:id="@+id/tvRecentVideoTitle"-->
+<!--                   style="@style/LargeText"/>-->
+<!--           </RelativeLayout>-->
+<!--        </androidx.cardview.widget.CardView>-->
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:id="@+id/rvPlayListContainer"
+        tools:listitem="@layout/playlist_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/playlists_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="#9BB4A1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

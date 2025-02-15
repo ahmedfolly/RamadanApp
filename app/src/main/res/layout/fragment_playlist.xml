@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".features.media.presentation.ui.PlaylistFragment">
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:videoId="tLz6d6rHXhI"
+        android:id="@+id/youtube_player_view"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@color/white"
+            android:id="@+id/icShare"
+            android:layout_marginHorizontal="8dp"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@color/greyColor"
+            android:id="@+id/icSave"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="الرقية الشرعية"
+                style="@style/LargeText"
+                android:textSize="20sp"
+                android:id="@+id/tvPlayingVideoTitle"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="الرقية الشرعية"
+                style="@style/MediumText"
+                android:textSize="18sp"
+                android:id="@+id/tvPlayingVideoCategory"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="المزيد من الفيديوهات"
+        android:layout_marginHorizontal="8dp"
+        style="@style/MediumText"
+        android:layout_marginVertical="8dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:id="@+id/rvVideosContainerInsidePlaylist"/>
+</LinearLayout>

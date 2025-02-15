@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-	namespace = "com.example.shopsphere"
+	namespace = "com.example.ramadanapp"
 	compileSdk =35
 
 	defaultConfig {
-		applicationId = "com.example.shopsphere"
+		applicationId = "com.example.ramadanapp"
 		minSdk = 24
 		targetSdk = 34
 		versionCode = 1
@@ -69,6 +69,9 @@ dependencies {
 	implementation(libs.androidx.room.runtime)
 	ksp(libs.androidx.room.compiler)
 	implementation(libs.room.ktx)
+	//youtube player
+	implementation (libs.core)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

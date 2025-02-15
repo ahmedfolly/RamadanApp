@@ -19,6 +19,6 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "BaseProject"
+rootProject.name = "RamadanApp"
 include(":app")
  
