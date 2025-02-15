@@ -15,3 +15,6 @@ inline fun <reified T> handleResponse(
 		is Resource.Success -> onSuccess(response.model)
 	}
 }
+fun videoThumbnailUrl(videoId:String):String{
+	return  "https://img.youtube.com/vi/$videoId/hqdefault.jpg"
+}

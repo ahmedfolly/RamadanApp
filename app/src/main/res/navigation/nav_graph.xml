@@ -21,5 +21,9 @@
         android:id="@+id/playlistFragment"
         android:name="com.example.ramadanapp.features.media.presentation.ui.PlaylistFragment"
         android:label="fragment_playlist"
-        tools:layout="@layout/fragment_playlist" />
+        tools:layout="@layout/fragment_playlist" >
+        <argument
+            android:name="recentPlayList"
+            app:argType="com.example.ramadanapp.features.media.domain.model.StagedData" />
+    </fragment>
 </navigation>

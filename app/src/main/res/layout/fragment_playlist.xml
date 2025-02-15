@@ -6,12 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/background"
+    android:layoutDirection="rtl"
     tools:context=".features.media.presentation.ui.PlaylistFragment">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:videoId="tLz6d6rHXhI"
         android:id="@+id/youtube_player_view"/>
 
     <LinearLayout
@@ -19,17 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/share_24px"
-            android:id="@+id/icShare"
-            android:layout_marginHorizontal="8dp"/>
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/bookmark_24px_empty"
-            android:id="@+id/icSave"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -52,6 +42,17 @@
                 android:textSize="18sp"
                 android:id="@+id/tvPlayingVideoCategory"/>
         </LinearLayout>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/share_24px"
+            android:id="@+id/icShare"
+            android:layout_marginHorizontal="8dp"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/bookmark_24px_empty"
+            android:id="@+id/icSave"/>
 
     </LinearLayout>
     <TextView
@@ -66,5 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        tools:listitem="@layout/video_item_inner"
         android:id="@+id/rvVideosContainerInsidePlaylist"/>
 </LinearLayout>

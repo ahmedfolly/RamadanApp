@@ -1,7 +1,6 @@
 package com.example.ramadanapp.features.media.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
 import com.example.ramadanapp.features.media.presentation.mvi.MediaIntent
 import com.example.ramadanapp.features.media.presentation.mvi.MediaState
 import com.example.ramadanapp.features.media.presentation.mvi.MediaViewModel
+import com.example.ramadanapp.features.media.presentation.ui.adapters.PlayListAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
