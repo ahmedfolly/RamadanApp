@@ -19,6 +19,6 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "ShopSphere"
+rootProject.name = "BaseProject"
 include(":app")
  
