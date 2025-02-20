@@ -26,6 +26,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvVideoTitleInner"
         style="@style/MediumText"
+        android:textColor="@color/black"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:layout_marginHorizontal="8dp"/>
 
 </LinearLayout>

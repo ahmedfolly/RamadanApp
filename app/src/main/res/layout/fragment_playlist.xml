@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/background"
     android:layoutDirection="rtl"
-    tools:context=".features.media.presentation.ui.PlaylistFragment">
+    tools:context=".features.media.presentation.playlist.ui.PlaylistFragment">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:layout_width="match_parent"
@@ -30,14 +30,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="الرقية الشرعية"
                 style="@style/LargeText"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:id="@+id/tvPlayingVideoTitle"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="الرقية الشرعية"
                 style="@style/MediumText"
                 android:textSize="18sp"
                 android:id="@+id/tvPlayingVideoCategory"/>
@@ -52,14 +53,18 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/bookmark_24px_empty"
-            android:id="@+id/icSave"/>
+            android:id="@+id/icSave"
+            android:layout_margin="8dp"/>
 
     </LinearLayout>
     <TextView
-        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:background="@drawable/title_txt_background"
+        android:padding="16dp"
         android:layout_height="wrap_content"
-        android:text="المزيد من الفيديوهات"
-        android:layout_marginHorizontal="8dp"
+        android:text="@string/more_videos"
+        android:layout_marginHorizontal="16dp"
         style="@style/MediumText"
         android:layout_marginVertical="8dp"
         />

@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">RamdanApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="shop_now">Shop Now</string>
-    <string name="search_for_products">Search for products</string>
-    <string name="categories">Categories</string>
-    <string name="products">Products</string>
-    <string name="product_image">product_image</string>
+    <string name="welcome_message"> Welcome to RamadanApp</string>
+    <string name="more_videos">More videos</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.mvi
+package com.example.ramadanapp.features.media.presentation.main.mvi
 
 import com.example.ramadanapp.common.domain.models.RamadanAppException
 import com.example.ramadanapp.features.media.domain.model.Playlist

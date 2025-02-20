@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.ui
+package com.example.ramadanapp.features.media.presentation.main.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ramadanapp.databinding.MainFragmentBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
-import com.example.ramadanapp.features.media.presentation.mvi.MediaIntent
-import com.example.ramadanapp.features.media.presentation.mvi.MediaState
-import com.example.ramadanapp.features.media.presentation.mvi.MediaViewModel
-import com.example.ramadanapp.features.media.presentation.ui.adapters.PlayListAdapter
+import com.example.ramadanapp.features.media.presentation.main.mvi.MediaIntent
+import com.example.ramadanapp.features.media.presentation.main.mvi.MediaState
+import com.example.ramadanapp.features.media.presentation.main.mvi.MediaViewModel
+import com.example.ramadanapp.features.media.presentation.main.ui.adapters.PlayListAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

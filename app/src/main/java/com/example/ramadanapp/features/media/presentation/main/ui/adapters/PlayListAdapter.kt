@@ -1,16 +1,14 @@
-package com.example.ramadanapp.features.media.presentation.ui.adapters
+package com.example.ramadanapp.features.media.presentation.main.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ramadanapp.databinding.PlaylistItemBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
-import com.example.ramadanapp.features.media.presentation.ui.MainFragment
-import com.example.ramadanapp.features.media.presentation.ui.MainFragmentDirections
+import com.example.ramadanapp.features.media.presentation.main.ui.MainFragment
 
 class PlayListAdapter(val mainFragment: MainFragment) :
 	ListAdapter<CategorizedPlayList, PlayListAdapter.PlayListVH>(PlayListDiffUtil()) {

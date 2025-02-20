@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.ui.adapters
+package com.example.ramadanapp.features.media.presentation.playlist.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

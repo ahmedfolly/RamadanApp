@@ -1,6 +1,5 @@
-package com.example.ramadanapp.features.media.presentation.ui.adapters
+package com.example.ramadanapp.features.media.presentation.main.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
@@ -8,11 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.ramadanapp.common.utils.videoThumbnailUrl
 import com.example.ramadanapp.databinding.VideoItemMainBinding
-import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
 import com.example.ramadanapp.features.media.domain.model.StagedData
 import com.example.ramadanapp.features.media.domain.model.Video
-import com.example.ramadanapp.features.media.presentation.ui.MainFragment
-import com.example.ramadanapp.features.media.presentation.ui.MainFragmentDirections
+import com.example.ramadanapp.features.media.presentation.main.ui.MainFragment
+import com.example.ramadanapp.features.media.presentation.main.ui.MainFragmentDirections
 
 class VideosAdapter(val mainFragment: MainFragment, val videos: List<Video>): RecyclerView.Adapter<VideosAdapter.VideosVH>() {
 	private lateinit var binding: VideoItemMainBinding

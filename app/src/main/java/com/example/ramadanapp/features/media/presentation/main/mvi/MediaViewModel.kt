@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.mvi
+package com.example.ramadanapp.features.media.presentation.main.mvi
 
 import androidx.lifecycle.viewModelScope
 import com.example.ramadanapp.common.domain.models.Resource
