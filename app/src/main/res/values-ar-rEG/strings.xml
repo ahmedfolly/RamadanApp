@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="search_for_products">ابحث عن المنتج الذي تريده..</string>
-    <string name="categories">فئات المنتجات</string>
-    <string name="products">المنتجات</string>
-    <string name="product_image">product_image</string>
-    <string name="shop_now">إبدأ التسوق</string>
+    <string name="welcome_message">أهلا بك</string>
+    <string name="more_videos">المزيد من الفيدوهات</string>
 
 </resources>

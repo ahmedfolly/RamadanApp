@@ -1,26 +1,32 @@
 package com.example.ramadanapp.common.domain.mapper
 
 abstract class IMapper<Domain, Dto, Entity> {
-	open fun Dto.fromDtoToDomain(): Domain =
+	open fun fromDtoToDomain(dto: Dto): Domain =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
 
-	open fun List<Dto>.convertDtoToDomains() = map { dto -> dto.fromDtoToDomain() }
+//	open fun List<Dto>.convertDtoToDomains() = map { dto -> fromDtoToDomain(dto) }
 
-	open fun Domain.toEntity(): Entity =
+	open fun toEntity(domain: Domain): Entity =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
 
-	fun List<Domain>.convertToEntities() = map { domain -> domain.toEntity() }
+//	fun List<Domain>.convertToEntities() = map { domain -> toEntity(domain) }
 
-	open fun Entity.fromEntityToDomain(): Domain =
+	open fun fromEntityToDomain(entity: Entity): Domain =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
 
-	fun List<Entity>.convertEntitiesToDomains() = map { entity -> entity.fromEntityToDomain() }
+	fun convertEntitiesToDomains(entities: List<Entity>) : List<Domain>{
+		return entities.map { entity-> fromEntityToDomain(entity) }
+	}
 
-	open fun Dto.fromDtoToEntity(): Entity =
+	open fun fromDtoToEntity(dto: Dto): Entity =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
 
-	fun List<Dto>.convertDtosToEntities() = map { dto -> dto.fromDtoToEntity() }
+//	fun List<Dto>.convertDtosToEntities() = map { dto -> fromDtoToEntity(dto) }
 
-	fun Entity.fromEntityToDto(): Dto =
+	fun fromEntityToDto(entity: Entity): Dto =
 		throw NotImplementedError("Try to implement fromEntityToDto function")
+
+	open fun fromDomainToEntity(domain: Domain):Entity =
+		throw NotImplementedError("Try to implement fromDtoToEntity function")
+
 }

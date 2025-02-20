@@ -5,9 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@color/background"
-    tools:context=".features.media.presentation.ui.MainFragment">
+    tools:context=".features.media.presentation.main.ui.MainFragment">
 
     <RelativeLayout
         android:id="@+id/topBar"
@@ -19,24 +18,22 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:background="#9BB4A1"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="#9BB4A1"
             android:id="@+id/header_layout"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="16dp"
+            android:padding="16dp"
 
             >
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="أهلا بك "
+                android:text="@string/welcome_message"
                 style="@style/LargeText"
                 android:textColor="@color/white"
                 android:id="@+id/tv_welcome_message"/>
@@ -45,12 +42,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/search_24px"
+                android:layout_margin="4dp"
                 />
             <ImageView
                 android:id="@+id/notificationIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_bell" />
+                android:src="@drawable/ic_bell"
+                android:layout_margin="4dp"/>
 
         </LinearLayout>
 <!--        <androidx.cardview.widget.CardView-->
