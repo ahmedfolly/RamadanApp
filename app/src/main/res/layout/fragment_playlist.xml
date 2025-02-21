@@ -49,6 +49,12 @@
             android:src="@drawable/share_24px"
             android:id="@+id/icShare"
             android:layout_marginHorizontal="8dp"/>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:id="@+id/save_delete_loader"/>
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"

@@ -11,7 +11,7 @@ abstract class IMapper<Domain, Dto, Entity> {
 
 //	fun List<Domain>.convertToEntities() = map { domain -> toEntity(domain) }
 
-	open fun fromEntityToDomain(entity: Entity): Domain =
+	open fun fromEntityToDomain(entity: Entity?): Domain =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
 
 	fun convertEntitiesToDomains(entities: List<Entity>) : List<Domain>{

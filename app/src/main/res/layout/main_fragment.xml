@@ -45,11 +45,12 @@
                 android:layout_margin="4dp"
                 />
             <ImageView
-                android:id="@+id/notificationIcon"
+                android:id="@+id/open_saved_videos_screen"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_bell"
-                android:layout_margin="4dp"/>
+                android:src="@drawable/bookmark_24px_fill"
+                android:layout_margin="4dp"
+                app:tint="@color/white" />
 
         </LinearLayout>
 <!--        <androidx.cardview.widget.CardView-->

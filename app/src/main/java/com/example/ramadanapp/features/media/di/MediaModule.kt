@@ -26,33 +26,41 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 @InstallIn(ViewModelComponent::class)
 object MediaModule {
 	@Provides
-	fun provideGetMediaUC(repo: IMediaRepo): GetMediaUC{
+	fun provideGetMediaUC(repo: IMediaRepo): GetMediaUC {
 		return GetMediaUC(repo)
 	}
+
 	@Provides
-	fun provideGetSavedVideoUC(repo: IMediaRepo): GetSavedVideoByIdUC{
+	fun provideGetSavedVideoUC(repo: IMediaRepo): GetSavedVideoByIdUC {
 		return GetSavedVideoByIdUC(repo)
 	}
+
 	@Provides
 	fun provideGetSavedVideosUC(repo: IMediaRepo) = GetSavedVideosUC(repo)
+
 	@Provides
 	fun provideSaveVideoUC(repo: IMediaRepo) = SaveVideoUC(repo)
+
 	@Provides
 	fun provideDeleteUC(repo: IMediaRepo) = DeleteVideoUC(repo)
+
 	@Provides
-	fun provideIMediaRepo(mediaRemote: IMediaRemote,mediaLocal: IMediaLocal): IMediaRepo{
-		return MediaRepo(mediaRemote,mediaLocal)
+	fun provideIMediaRepo(mediaRemote: IMediaRemote, mediaLocal: IMediaLocal): IMediaRepo {
+		return MediaRepo(mediaRemote, mediaLocal)
 	}
+
 	@Provides
-	fun provideIMediaRemote(remoteProvider: IRemoteProvider): IMediaRemote{
+	fun provideIMediaRemote(remoteProvider: IRemoteProvider): IMediaRemote {
 		return MediaRemote(remoteProvider)
 	}
+
 	@Provides
-	fun provideIMediaLocal(mediaDao: MediaDao): IMediaLocal{
+	fun provideIMediaLocal(mediaDao: MediaDao): IMediaLocal {
 		return MediaLocalDao(mediaDao)
 	}
+
 	@Provides
-	fun provideMediaDao(@ApplicationContext context:Context, database: AppDatabase): MediaDao{
+	fun provideMediaDao(@ApplicationContext context: Context, database: AppDatabase): MediaDao {
 		return database.getMediaDao()
 	}
 }

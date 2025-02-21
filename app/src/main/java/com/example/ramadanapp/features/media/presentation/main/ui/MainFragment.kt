@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ramadanapp.databinding.MainFragmentBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
@@ -45,29 +46,38 @@ class MainFragment : Fragment() {
 		mediaIntentRender()
 		mediaIntentSend()
 		setupPlaylistsContainer()
+		goToSavedVideosScreen()
 	}
-	private fun mediaIntentSend(){
-		lifecycleScope.launch{
+
+	private fun mediaIntentSend() {
+		lifecycleScope.launch {
 			mediaViewModel.userIntentChannel.send(MediaIntent.LoadMedia)
 		}
 	}
-	private fun mediaIntentRender(){
-		lifecycleScope.launch{
-			repeatOnLifecycle(Lifecycle.State.STARTED){
-				mediaViewModel.state.collect{mediaState->
-					when(mediaState){
+
+	private fun mediaIntentRender() {
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				mediaViewModel.state.collect { mediaState ->
+					when (mediaState) {
 						is MediaState.Failure -> {
-							Snackbar.make(requireView(),mediaState.e.message.toString(), Snackbar.LENGTH_SHORT).show()
+							Snackbar.make(
+								requireView(),
+								mediaState.e.message.toString(),
+								Snackbar.LENGTH_SHORT
+							).show()
 							binding.playlistsLoader.visibility = View.GONE
 						}
-						is MediaState.Idle       -> {}
-						is MediaState.Loading    -> {
+
+						is MediaState.Idle    -> {}
+						is MediaState.Loading -> {
 							binding.playlistsLoader.visibility = View.VISIBLE
 						}
-						is MediaState.Success ->{
+
+						is MediaState.Success -> {
 							val categorizedPlayList = mediaState.media.videos.groupBy {
 								it.category
-							}.map { CategorizedPlayList(it.key,it.value) }
+							}.map { CategorizedPlayList(it.key, it.value) }
 							playlistAdapter.submitList(categorizedPlayList)
 							binding.playlistsLoader.visibility = View.GONE
 						}
@@ -76,11 +86,20 @@ class MainFragment : Fragment() {
 			}
 		}
 	}
-	private fun setupPlaylistsContainer(){
+
+	private fun setupPlaylistsContainer() {
 		binding.rvPlayListContainer.apply {
 			setHasFixedSize(true)
 			layoutManager = LinearLayoutManager(requireContext())
 			adapter = playlistAdapter
+		}
+	}
+
+	private fun goToSavedVideosScreen() {
+		binding.openSavedVideosScreen.setOnClickListener {
+			val fromMainToSavedVideosScreenAction =
+				MainFragmentDirections.actionMainFragmentToSavedVideosFragment()
+			findNavController().navigate(fromMainToSavedVideosScreenAction)
 		}
 	}
 }

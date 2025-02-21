@@ -1,12 +1,10 @@
 package com.example.ramadanapp.features.media.data.repos
 
-import android.util.Log
-import com.example.ramadanapp.common.domain.models.RamadanAppException
 import com.example.ramadanapp.features.media.data.mappers.MediaMapper
-import com.example.ramadanapp.features.media.domain.model.Playlist
-import com.example.ramadanapp.features.media.domain.repos.IMediaRepo
 import com.example.ramadanapp.features.media.data.mappers.VideoMapper
+import com.example.ramadanapp.features.media.domain.model.Playlist
 import com.example.ramadanapp.features.media.domain.model.Video
+import com.example.ramadanapp.features.media.domain.repos.IMediaRepo
 import com.example.ramadanapp.features.media.domain.repos.local.IMediaLocal
 import com.example.ramadanapp.features.media.domain.repos.remote.IMediaRemote
 

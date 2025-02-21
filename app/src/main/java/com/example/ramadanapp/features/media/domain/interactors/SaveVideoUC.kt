@@ -4,15 +4,17 @@ import com.example.ramadanapp.common.domain.models.RamadanAppException
 import com.example.ramadanapp.common.domain.models.Resource
 import com.example.ramadanapp.features.media.domain.model.Video
 import com.example.ramadanapp.features.media.domain.repos.IMediaRepo
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 
 class SaveVideoUC(private val mediaRepo: IMediaRepo) {
-	suspend operator fun invoke(video: Video): Resource<Video> {
-		return try {
-			Resource.Loading
-			mediaRepo.saveVideo(video)
-			Resource.Success(video)
-		} catch (e: RamadanAppException) {
-			Resource.Failure(e)
-		}
+	 operator fun invoke(video: Video) = flow {
+		emit(Resource.Loading)
+		 mediaRepo.saveVideo(video)
+		emit(Resource.Success(video))
+	}.catch { e->
+		val exception = if (e is RamadanAppException) e else RamadanAppException.UnknownException("Unknown error appeared")
+		emit(Resource.Failure(exception))
 	}
 }
