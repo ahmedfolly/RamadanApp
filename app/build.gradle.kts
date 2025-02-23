@@ -72,6 +72,10 @@ dependencies {
 	//youtube player
 	implementation (libs.core)
 
+	//datastore and Gson
+	implementation(libs.androidx.datastore.preferences)
+	implementation(libs.gson) // For Gson (optional)
+	implementation(libs.kotlinx.serialization.json)
 	testImplementation(libs.junit)
 	androidTestImplementation(libs.androidx.junit)
 	androidTestImplementation(libs.androidx.espresso.core)

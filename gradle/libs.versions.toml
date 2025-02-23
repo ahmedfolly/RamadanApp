@@ -2,12 +2,15 @@
 agp = "8.7.3"
 coil = "2.6.0"
 core = "12.1.1"
+datastorePreferences = "1.1.2"
+gsonVersion = "2.10.1"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+kotlinxSerializationJson = "1.6.3"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
@@ -23,8 +26,11 @@ ksp = "2.0.21-1.0.27"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "core" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }

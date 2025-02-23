@@ -134,11 +134,18 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 							innerVideosAdapter.submitList(videos)
 							setupViews(playingVideo)
 							firstSetupSelectedVideo(playingVideo.videoId)
+							sendSaveLastSeenVideoIntent(playingVideo)
 						}
 
 					}
 				}
 			}
+		}
+	}
+
+	private fun sendSaveLastSeenVideoIntent(video: Video) {
+		lifecycleScope.launch {
+			playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveLastSeenVideo(video))
 		}
 	}
 
@@ -167,9 +174,12 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 	override fun videoClicker(video: Video) {
 		playSelectedVideo(video.videoId)
 		setupViews(video)
+
 		playlist = playlist.copy(playingVideo = video)
 		playlistViewModel.updatePlaylistState(playlist)
 
 		checkIfVideoSaved(video)
+
+		sendSaveLastSeenVideoIntent(video)
 	}
 }

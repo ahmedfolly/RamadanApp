@@ -1,10 +1,13 @@
 package com.example.ramadanapp.features.media.presentation.playlist.mvi
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.ramadanapp.common.domain.models.Resource
 import com.example.ramadanapp.common.presentation.RamadanAppViewModel
 import com.example.ramadanapp.features.media.domain.interactors.DeleteVideoUC
+import com.example.ramadanapp.features.media.domain.interactors.GetLastSeenUC
 import com.example.ramadanapp.features.media.domain.interactors.GetSavedVideoByIdUC
+import com.example.ramadanapp.features.media.domain.interactors.SaveLastSeenUC
 import com.example.ramadanapp.features.media.domain.interactors.SaveVideoUC
 import com.example.ramadanapp.features.media.domain.model.StagedData
 import com.example.ramadanapp.features.media.domain.model.Video
@@ -21,7 +24,8 @@ import javax.inject.Inject
 class PlaylistViewModel @Inject constructor(
 	private val getSavedVideoUC: GetSavedVideoByIdUC,
 	private val saveVideoUC: SaveVideoUC,
-	private val deleteVideoUC: DeleteVideoUC
+	private val deleteVideoUC: DeleteVideoUC,
+	private val saveLastSeenUC: SaveLastSeenUC,
 ) :
 	RamadanAppViewModel<PlaylistIntent, PlaylistState>(
 		PlaylistState.Idle
@@ -37,6 +41,7 @@ class PlaylistViewModel @Inject constructor(
 				when (intent) {
 					is PlaylistIntent.GetSavedVideoById -> getSavedVideoById(intent.videoId)
 					is PlaylistIntent.SaveOrDeleteVideo -> saveOrDeleteVideo(intent.video)
+					is PlaylistIntent.SaveLastSeenVideo -> saveLastSeenVideo(intent.video)
 				}
 			}
 		}
@@ -46,7 +51,7 @@ class PlaylistViewModel @Inject constructor(
 		viewModelScope.launch(Dispatchers.IO) {
 			val videoResponse = getSavedVideoUC(videoId)
 			videoResponse.collect { response ->
-				if(response is Resource.Success){
+				if (response is Resource.Success) {
 					_savedVideoState.update { response.model.videoId.isNotEmpty() }
 				}
 			}
@@ -65,7 +70,7 @@ class PlaylistViewModel @Inject constructor(
 		}
 	}
 
-	fun saveOrDeleteVideo(video: Video) {
+	private fun saveOrDeleteVideo(video: Video) {
 		viewModelScope.launch {
 			if (savedVideoState.value) {
 				deleteVideoUC(video).collect { response ->
@@ -78,6 +83,16 @@ class PlaylistViewModel @Inject constructor(
 					if (response is Resource.Success) {
 						_savedVideoState.update { true }
 					}
+				}
+			}
+		}
+	}
+
+	private fun saveLastSeenVideo(video: Video) {
+		viewModelScope.launch {
+			 saveLastSeenUC(video).collect {response->
+				if (response is Resource.Success){
+					Log.d("TAG", "saveLastSeenVideo: ${response.model}")
 				}
 			}
 		}

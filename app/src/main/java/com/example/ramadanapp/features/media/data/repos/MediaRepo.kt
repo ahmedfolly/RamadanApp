@@ -1,5 +1,6 @@
 package com.example.ramadanapp.features.media.data.repos
 
+import android.util.Log
 import com.example.ramadanapp.features.media.data.mappers.MediaMapper
 import com.example.ramadanapp.features.media.data.mappers.VideoMapper
 import com.example.ramadanapp.features.media.domain.model.Playlist
@@ -33,4 +34,14 @@ class MediaRepo(private val remoteIMedia: IMediaRemote, private val localIMedia:
 		localIMedia.deleteVideo(VideoMapper.fromDomainToEntity(video))
 	}
 
+	override suspend fun getLastSeenVideo(): Video {
+		 val lastSeenVideoVideo = localIMedia.getLastSeenVideo()
+		Log.d("TAG", "getLastSeenVideo: $lastSeenVideoVideo")
+		return VideoMapper.fromEntityToDomain(lastSeenVideoVideo)
+	}
+	override suspend fun saveLastSeenVideo(video: Video) {
+		val videoToSaveAsLastSeen = VideoMapper.fromDomainToEntity(video)
+		Log.d("TAG", "saveLastSeenVideo Main Repo: $videoToSaveAsLastSeen")
+		localIMedia.saveLastSeenVideo(videoToSaveAsLastSeen)
+	}
 }

@@ -10,7 +10,7 @@ import com.example.ramadanapp.common.utils.videoThumbnailUrl
 import com.example.ramadanapp.databinding.VideoItemInnerBinding
 import com.example.ramadanapp.features.media.domain.model.Video
 
-class SavedVideosAdapter: ListAdapter<Video, SavedVideosAdapter.SavedVideosVH>(SavedVideosDiffUtil()) {
+class SavedVideosAdapter(private val savedVideoClicked: SavedVideoClicked): ListAdapter<Video, SavedVideosAdapter.SavedVideosVH>(SavedVideosDiffUtil()) {
 	private lateinit var binding: VideoItemInnerBinding
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
@@ -36,8 +36,14 @@ class SavedVideosAdapter: ListAdapter<Video, SavedVideosAdapter.SavedVideosVH>(S
 					crossfade(true)
 				}
 				tvVideoTitleInner.text = video.title
+				root.setOnClickListener{
+					savedVideoClicked.onSavedVideoClicked(video)
+				}
 			}
 		}
+	}
+	interface SavedVideoClicked{
+		fun onSavedVideoClicked(video: Video)
 	}
 	class SavedVideosDiffUtil: DiffUtil.ItemCallback<Video>(){
 		override fun areItemsTheSame(
@@ -53,6 +59,5 @@ class SavedVideosAdapter: ListAdapter<Video, SavedVideosAdapter.SavedVideosVH>(S
 		): Boolean {
 			return oldItem == newItem
 		}
-
 	}
 }

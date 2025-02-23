@@ -1,21 +1,23 @@
 package com.example.ramadanapp.features.media.di
 
 import android.content.Context
-import androidx.room.Room
 import com.example.ramadanapp.common.data.repos.local.AppDatabase
 import com.example.ramadanapp.common.domain.repos.remote.IRemoteProvider
 import com.example.ramadanapp.features.media.data.repos.MediaRepo
 import com.example.ramadanapp.features.media.data.repos.local.MediaDao
-import com.example.ramadanapp.features.media.data.repos.local.MediaLocalDao
+import com.example.ramadanapp.features.media.data.repos.local.MediaLocal
 import com.example.ramadanapp.features.media.data.repos.remote.MediaRemote
 import com.example.ramadanapp.features.media.domain.interactors.DeleteVideoUC
+import com.example.ramadanapp.features.media.domain.interactors.GetLastSeenUC
 import com.example.ramadanapp.features.media.domain.interactors.GetMediaUC
 import com.example.ramadanapp.features.media.domain.interactors.GetSavedVideoByIdUC
 import com.example.ramadanapp.features.media.domain.interactors.GetSavedVideosUC
+import com.example.ramadanapp.features.media.domain.interactors.SaveLastSeenUC
 import com.example.ramadanapp.features.media.domain.interactors.SaveVideoUC
 import com.example.ramadanapp.features.media.domain.repos.IMediaRepo
 import com.example.ramadanapp.features.media.domain.repos.local.IMediaLocal
 import com.example.ramadanapp.features.media.domain.repos.remote.IMediaRemote
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +47,12 @@ object MediaModule {
 	fun provideDeleteUC(repo: IMediaRepo) = DeleteVideoUC(repo)
 
 	@Provides
+	fun provideSaveLastSeenVideoUC(repo: IMediaRepo) = SaveLastSeenUC(repo)
+
+	@Provides
+	fun provideGetLastSeenVideoUC(repo: IMediaRepo) = GetLastSeenUC(repo)
+
+	@Provides
 	fun provideIMediaRepo(mediaRemote: IMediaRemote, mediaLocal: IMediaLocal): IMediaRepo {
 		return MediaRepo(mediaRemote, mediaLocal)
 	}
@@ -55,12 +63,17 @@ object MediaModule {
 	}
 
 	@Provides
-	fun provideIMediaLocal(mediaDao: MediaDao): IMediaLocal {
-		return MediaLocalDao(mediaDao)
+	fun provideIMediaLocal(
+		mediaDao: MediaDao,
+		@ApplicationContext context: Context,
+		gson: Gson
+	): IMediaLocal {
+		return MediaLocal(mediaDao, context, gson)
 	}
 
 	@Provides
 	fun provideMediaDao(@ApplicationContext context: Context, database: AppDatabase): MediaDao {
 		return database.getMediaDao()
 	}
+
 }
