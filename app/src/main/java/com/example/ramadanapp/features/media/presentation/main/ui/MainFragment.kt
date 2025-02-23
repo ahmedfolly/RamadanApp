@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ramadanapp.common.presentation.showSnackbar
 import com.example.ramadanapp.databinding.MainFragmentBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
 import com.example.ramadanapp.features.media.domain.model.Video
@@ -73,11 +74,7 @@ class MainFragment : Fragment() {
 				mediaViewModel.state.collect { mediaState ->
 					when (mediaState) {
 						is MediaState.Failure -> {
-							Snackbar.make(
-								requireView(),
-								mediaState.e.message.toString(),
-								Snackbar.LENGTH_SHORT
-							).show()
+							showSnackbar(mediaState.e.message.toString())
 							binding.playlistsLoader.visibility = View.GONE
 						}
 
@@ -120,7 +117,8 @@ class MainFragment : Fragment() {
 
 	private fun playLastSeenVideo(video: Video) {
 		if (::youTubePlayer.isInitialized) {
-			val videoId = if (video.videoId.isEmpty()) "tldDnDX5UKM" else video.videoId //default videoId if there is no last seen video
+			val videoId =
+				if (video.videoId.isEmpty()) "tldDnDX5UKM" else video.videoId //default videoId if there is no last seen video
 			Log.d("TAG", "playLastSeenVideo: $videoId")
 			youTubePlayer.loadVideo(videoId, 0f)
 			youTubePlayer.pause()
@@ -132,7 +130,7 @@ class MainFragment : Fragment() {
 			repeatOnLifecycle(Lifecycle.State.STARTED) {
 				mediaViewModel.lastSeenVideoState.collect { lastSeenVideo ->
 					Log.d("TAG", "getLastSeenVideoRender: $lastSeenVideo")
-					if (lastSeenVideo !=null){
+					if (lastSeenVideo != null) {
 						playLastSeenVideo(lastSeenVideo)
 						binding.bannerImage.visibility = View.VISIBLE
 					}

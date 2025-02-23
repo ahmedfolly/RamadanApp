@@ -1,6 +1,7 @@
 package com.example.ramadanapp.features.media.presentation.saved.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ramadanapp.R
+import com.example.ramadanapp.common.presentation.showSnackbar
 import com.example.ramadanapp.databinding.FragmentSavedVideosBinding
 import com.example.ramadanapp.features.media.domain.model.Video
 import com.example.ramadanapp.features.media.presentation.saved.mvi.SavedScreenIntents
@@ -63,12 +65,22 @@ class SavedVideosFragment : Fragment(), SavedVideosAdapter.SavedVideoClicked {
 			repeatOnLifecycle(Lifecycle.State.STARTED) {
 				savedVideosViewModel.state.collect { state ->
 					when (state) {
-						is SavedVideosScreenState.Failure -> {}
+						is SavedVideosScreenState.Failure -> {
+							showSnackbar(state.error.toString())
+							binding.savedVideosLoader.visibility = View.GONE
+						}
 						SavedVideosScreenState.Idle       -> {}
-						SavedVideosScreenState.Loading    -> {}
+						SavedVideosScreenState.Loading    -> {
+							binding.savedVideosLoader.visibility = View.VISIBLE
+						}
 						is SavedVideosScreenState.Success -> {
 							val videos = state.videos
+							if (videos.isEmpty()) {
+								//setup emptyView if there is no saved videos
+								binding.emptySavedVideosView.visibility = View.VISIBLE
+							}
 							savedVideosAdapter.submitList(videos)
+							binding.savedVideosLoader.visibility = View.GONE
 						}
 					}
 				}
@@ -93,16 +105,23 @@ class SavedVideosFragment : Fragment(), SavedVideosAdapter.SavedVideoClicked {
 			}
 		})
 	}
-	private fun playVideo(video: Video){
+
+	private fun playVideo(video: Video) {
 		binding.savedYoutubePlayerView.visibility = View.VISIBLE
-		if (::youTubePlayerListener.isInitialized){
-			youTubePlayerListener.loadVideo(video.videoId,0f)
-		}else{
+		if (::youTubePlayerListener.isInitialized) {
+			youTubePlayerListener.loadVideo(video.videoId, 0f)
+		} else {
 			Toast.makeText(requireContext(), "Wait a moment", Toast.LENGTH_SHORT).show()
 		}
 	}
 
+	private fun sendSaveLastVideoIntent(video:Video){
+		lifecycleScope.launch{
+			savedVideosViewModel.userIntentChannel.send(SavedScreenIntents.SaveLastSeenVideo(video))
+		}
+	}
 	override fun onSavedVideoClicked(video: Video) {
 		playVideo(video)
+		sendSaveLastVideoIntent(video)
 	}
 }
