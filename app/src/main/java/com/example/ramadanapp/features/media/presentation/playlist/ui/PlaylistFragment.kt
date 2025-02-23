@@ -25,6 +25,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.example.ramadanapp.R
+import kotlinx.coroutines.delay
+import java.util.concurrent.atomic.AtomicBoolean
 
 @AndroidEntryPoint
 class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
@@ -51,41 +53,38 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initialSetup()
-		renderState()
 		bookmarkClicked()
+		collectSavedVideoState()
 	}
 
 	private fun initialSetup() {
 		setupInnerVideosContainer()
 		playlist = playlistFragmentArgs.recentPlayList
-		val videos = playlist.relatedVideos
-		val playingVideo = playlist.playingVideo
-		innerVideosAdapter.submitList(videos)
-		setupViews(playlist.playingVideo)
-		firstSetupSelectedVideo(playingVideo.videoId)
-		checkIfVideoSaved()
+		playlistViewModel.setInitialPlaylistState(playlist)
+		collectPlaylistData()
+		playlistViewModel.playlistState.value?.let {
+			checkIfVideoSaved(it.playingVideo)
+		}
 	}
 
 	private fun firstSetupSelectedVideo(videoId: String) {
-		lifecycle.addObserver(binding.youtubePlayerView)
 		binding.youtubePlayerView.addYouTubePlayerListener(object :
 			AbstractYouTubePlayerListener() {
 			override fun onReady(youTubePlayer: YouTubePlayer) {
 				super.onReady(youTubePlayer)
 				youTubePlayerInstance = youTubePlayer
-				Log.d("TAG", "onReady: $videoId")
 				playSelectedVideo(videoId)
 			}
 		})
 	}
 
 	private fun playSelectedVideo(videoId: String) {
-		if (::youTubePlayerInstance.isInitialized){
+		if (::youTubePlayerInstance.isInitialized) {
 			youTubePlayerInstance.loadVideo(videoId, 0f)
-		}
-		else {
+		} else {
 			Log.w("TAG", "YouTube Player is not ready yet")
-			Toast.makeText(requireContext(), "YouTube Player is not ready yet", Toast.LENGTH_SHORT).show()
+			Toast.makeText(requireContext(), "YouTube Player is not ready yet", Toast.LENGTH_SHORT)
+				.show()
 		}
 	}
 
@@ -106,52 +105,13 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 
 	private fun bookmarkClicked() {
 		binding.icSave.setOnClickListener {
-			sendSaveVideoIntent()
-//			sendDeleteVideoIntent()
-			//if video not saved so save it
-			//else if video saved so delete it send delete intent
+			sendSaveOrDeleteIntent()
 		}
 	}
 
-	private fun sendSaveVideoIntent() {
+	private fun checkIfVideoSaved(video: Video) {
 		lifecycleScope.launch {
-			playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveVideo(playlist.playingVideo))
-		}
-	}
-
-	private fun renderState() {
-		lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.STARTED) {
-				playlistViewModel.state.collect { state ->
-					when (state) {
-						is PlaylistState.Success -> {
-							fillBookmarkIcon()
-							playlistViewModel.clearState()
-						}
-
-						is PlaylistState.Failure -> {
-							unFillBookmarkIcon()
-							playlistViewModel.clearState()
-						}
-
-						PlaylistState.Idle       -> {}
-
-						PlaylistState.Loading    -> {}
-					}
-				}
-			}
-		}
-	}
-
-	private fun checkIfVideoSaved() {
-		lifecycleScope.launch {
-			playlistViewModel.userIntentChannel.send(PlaylistIntent.GetSavedVideoById(playlist.playingVideo.videoId))
-		}
-	}
-
-	private fun sendDeleteVideoIntent(){
-		lifecycleScope.launch{
-			playlistViewModel.userIntentChannel.send(PlaylistIntent.DeleteVideo(playlist.playingVideo))
+			playlistViewModel.userIntentChannel.send(PlaylistIntent.GetSavedVideoById(video.videoId))
 		}
 	}
 
@@ -163,11 +123,63 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 		binding.icSave.setImageResource(R.drawable.bookmark_24px_empty)
 	}
 
+	private fun collectPlaylistData() {
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				playlistViewModel.playlistState.collect { playlist ->
+					if (playlist != null) {
+						with(playlist) {
+							val videos = relatedVideos
+							val playingVideo = playingVideo
+							innerVideosAdapter.submitList(videos)
+							setupViews(playingVideo)
+							firstSetupSelectedVideo(playingVideo.videoId)
+							sendSaveLastSeenVideoIntent(playingVideo)
+						}
+
+					}
+				}
+			}
+		}
+	}
+
+	private fun sendSaveLastSeenVideoIntent(video: Video) {
+		lifecycleScope.launch {
+			playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveLastSeenVideo(video))
+		}
+	}
+
+	private fun sendSaveOrDeleteIntent() {
+		lifecycleScope.launch {
+			playlistViewModel.playlistState.value?.let {
+				playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveOrDeleteVideo(it.playingVideo))
+			}
+		}
+	}
+
+	private fun collectSavedVideoState() {
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				playlistViewModel.savedVideoState.collect { isSaved ->
+					if (isSaved) {
+						fillBookmarkIcon()
+					} else {
+						unFillBookmarkIcon()
+					}
+				}
+			}
+		}
+	}
+
 	override fun videoClicker(video: Video) {
 		playSelectedVideo(video.videoId)
 		setupViews(video)
-		//change playlist playing video
+
 		playlist = playlist.copy(playingVideo = video)
-		checkIfVideoSaved()
+		playlistViewModel.updatePlaylistState(playlist)
+
+		checkIfVideoSaved(video)
+
+		sendSaveLastSeenVideoIntent(video)
 	}
 }

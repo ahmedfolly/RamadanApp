@@ -1,20 +1,13 @@
 package com.example.ramadanapp.features.media.domain.interactors
 
-import com.example.ramadanapp.common.domain.models.RamadanAppException
-import com.example.ramadanapp.common.domain.models.Resource
+import com.example.ramadanapp.common.domain.interactors.BaseUC
 import com.example.ramadanapp.features.media.domain.model.Video
 import com.example.ramadanapp.features.media.domain.repos.IMediaRepo
 
-class DeleteVideoUC(private val mediaRepo: IMediaRepo) {
-	suspend operator fun invoke(video: Video): Resource<Video>{
-		return try {
-			mediaRepo.deleteVideo(video)
-			Resource.Success(video)
-		}catch (e: RamadanAppException){
-			Resource.Failure(e)
-		}
-		catch (e: Exception){
-			Resource.Failure(RamadanAppException.UnknownException(e.message))
+class DeleteVideoUC(private val mediaRepo: IMediaRepo): BaseUC<Video, Unit>() {
+	override suspend fun execute(param: Video?) {
+		param?.let {
+			mediaRepo.deleteVideo(it)
 		}
 	}
 }

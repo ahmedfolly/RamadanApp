@@ -7,4 +7,6 @@ interface IMediaLocal {
 	suspend fun getVideoById(videoId:String): VideoEntity
 	suspend fun getVideos(): List<VideoEntity>
 	suspend fun deleteVideo(video: VideoEntity)
+	suspend fun saveLastSeenVideo(video: VideoEntity)
+	suspend fun getLastSeenVideo(): VideoEntity?
 }

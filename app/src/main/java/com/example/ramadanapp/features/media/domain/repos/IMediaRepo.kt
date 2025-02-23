@@ -9,4 +9,6 @@ interface IMediaRepo {
 	suspend fun saveVideo(video: Video)
 	suspend fun getSavedVideos(): List<Video>
 	suspend fun deleteVideo(video: Video)
+	suspend fun getLastSeenVideo(): Video
+	suspend fun saveLastSeenVideo(video: Video)
 }

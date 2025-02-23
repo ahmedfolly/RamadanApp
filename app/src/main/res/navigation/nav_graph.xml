@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mainFragment_to_playlistFragment2"
             app:destination="@id/playlistFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_savedVideosFragment"
+            app:destination="@id/savedVideosFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistFragment"
@@ -26,4 +29,9 @@
             android:name="recentPlayList"
             app:argType="com.example.ramadanapp.features.media.domain.model.StagedData" />
     </fragment>
+    <fragment
+        android:id="@+id/savedVideosFragment"
+        android:name="com.example.ramadanapp.features.media.presentation.saved.ui.SavedVideosFragment"
+        android:label="fragment_saved_videos"
+        tools:layout="@layout/fragment_saved_videos" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.playlist.ui.adapters
+package com.example.ramadanapp.features.media.presentation.saved.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,41 +10,42 @@ import com.example.ramadanapp.common.utils.videoThumbnailUrl
 import com.example.ramadanapp.databinding.VideoItemInnerBinding
 import com.example.ramadanapp.features.media.domain.model.Video
 
-class InnerVideosAdapter(val onVideoClicker: OnVideoClicker): ListAdapter<Video, InnerVideosAdapter.PlayListVideosVH>(PlayListVideosDiffUtil()) {
+class SavedVideosAdapter(private val savedVideoClicked: SavedVideoClicked): ListAdapter<Video, SavedVideosAdapter.SavedVideosVH>(SavedVideosDiffUtil()) {
 	private lateinit var binding: VideoItemInnerBinding
 	override fun onCreateViewHolder(
 		parent: ViewGroup,
 		viewType: Int
-	): PlayListVideosVH {
+	): SavedVideosVH {
 		binding = VideoItemInnerBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-		return PlayListVideosVH(binding)
+		return SavedVideosVH(binding)
 	}
 
 	override fun onBindViewHolder(
-		holder: PlayListVideosVH,
+		holder: SavedVideosVH,
 		position: Int
 	) {
 		val video = getItem(position)
 		holder.binds(video)
 	}
 
-	inner class PlayListVideosVH(val binding: VideoItemInnerBinding): RecyclerView.ViewHolder(binding.root){
-		fun binds(video:Video){
+
+	inner class SavedVideosVH(val binding: VideoItemInnerBinding): RecyclerView.ViewHolder(binding.root){
+		fun binds(video: Video){
 			with(binding){
-				tvVideoTitleInner.text = video.title
 				ivVideoImageInner.load(videoThumbnailUrl(video.videoId)){
 					crossfade(true)
 				}
+				tvVideoTitleInner.text = video.title
 				root.setOnClickListener{
-					onVideoClicker.videoClicker(video)
+					savedVideoClicked.onSavedVideoClicked(video)
 				}
 			}
 		}
 	}
-	interface OnVideoClicker {
-		fun videoClicker(video: Video)
+	interface SavedVideoClicked{
+		fun onSavedVideoClicked(video: Video)
 	}
-	class PlayListVideosDiffUtil: DiffUtil.ItemCallback<Video>(){
+	class SavedVideosDiffUtil: DiffUtil.ItemCallback<Video>(){
 		override fun areItemsTheSame(
 			oldItem: Video,
 			newItem: Video
@@ -58,6 +59,5 @@ class InnerVideosAdapter(val onVideoClicker: OnVideoClicker): ListAdapter<Video,
 		): Boolean {
 			return oldItem == newItem
 		}
-
 	}
 }
