@@ -7,12 +7,11 @@ import com.example.ramadanapp.features.media.domain.model.Playlist
 import com.example.ramadanapp.features.media.domain.model.Video
 
 object MediaMapper : IMapper<Playlist, PlaylistDto, Unit>() {
-	override fun PlaylistDto.fromDtoToDomain(): Playlist {
+	override fun fromDtoToDomain(dto: PlaylistDto): Playlist {
 		return Playlist(
-			videos = videos?.map { videoDto -> videoDto.toVideo()}.orEmpty()
+			videos = dto.videos?.map { videoDto -> videoDto.toVideo() }.orEmpty()
 		)
 	}
-
 	private fun VideoDto.toVideo(): Video {
 		return Video(
 			category = category.orEmpty(),
@@ -22,6 +21,7 @@ object MediaMapper : IMapper<Playlist, PlaylistDto, Unit>() {
 			videoId = extractVideoId(url.orEmpty()).orEmpty()
 		)
 	}
+
 
 	private fun extractVideoId(url: String): String? {
 		val regex = ".*(?:youtu.be/|v/|watch\\?v=|embed/|shorts/|\\?v=)([^#&?]*).*".toRegex()

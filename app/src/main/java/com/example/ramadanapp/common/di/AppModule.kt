@@ -76,5 +76,4 @@ object AppModule {
 			"shopSphereData"
 		).build()
 	}
-
 }

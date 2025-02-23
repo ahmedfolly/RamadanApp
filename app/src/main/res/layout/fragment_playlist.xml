@@ -6,12 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/background"
-    tools:context=".features.media.presentation.ui.PlaylistFragment">
+    android:layoutDirection="rtl"
+    tools:context=".features.media.presentation.playlist.ui.PlaylistFragment">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:videoId="tLz6d6rHXhI"
         android:id="@+id/youtube_player_view"/>
 
     <LinearLayout
@@ -19,17 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@color/white"
-            android:id="@+id/icShare"
-            android:layout_marginHorizontal="8dp"/>
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@color/greyColor"
-            android:id="@+id/icSave"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,25 +30,47 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="الرقية الشرعية"
                 style="@style/LargeText"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:id="@+id/tvPlayingVideoTitle"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="الرقية الشرعية"
                 style="@style/MediumText"
                 android:textSize="18sp"
                 android:id="@+id/tvPlayingVideoCategory"/>
         </LinearLayout>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/share_24px"
+            android:id="@+id/icShare"
+            android:layout_marginHorizontal="8dp"/>
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:id="@+id/save_delete_loader"/>
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/bookmark_24px_empty"
+            android:id="@+id/icSave"
+            android:layout_margin="8dp"/>
 
     </LinearLayout>
     <TextView
-        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:background="@drawable/title_txt_background"
+        android:padding="16dp"
         android:layout_height="wrap_content"
-        android:text="المزيد من الفيديوهات"
-        android:layout_marginHorizontal="8dp"
+        android:text="@string/more_videos"
+        android:layout_marginHorizontal="16dp"
         style="@style/MediumText"
         android:layout_marginVertical="8dp"
         />
@@ -66,5 +78,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        tools:listitem="@layout/video_item_inner"
         android:id="@+id/rvVideosContainerInsidePlaylist"/>
 </LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:layout_margin="8dp"
+        app:cardElevation="4dp">
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            android:id="@+id/ivVideoImageInner"/>
+    </com.google.android.material.card.MaterialCardView>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvVideoTitleInner"
+        style="@style/MediumText"
+        android:textColor="@color/black"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginHorizontal="8dp"/>
+
+</LinearLayout>
