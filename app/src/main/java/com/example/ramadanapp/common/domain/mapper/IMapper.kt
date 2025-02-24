@@ -3,7 +3,9 @@ package com.example.ramadanapp.common.domain.mapper
 abstract class IMapper<Domain, Dto, Entity> {
 	open fun fromDtoToDomain(dto: Dto): Domain =
 		throw NotImplementedError("Try to implement fromDtoToEntity function")
-
+	fun convertDtosToDomains(dtos: List<Dto>): List<Domain> {
+		return dtos.map { dto-> fromDtoToDomain(dto) }
+	}
 //	open fun List<Dto>.convertDtoToDomains() = map { dto -> fromDtoToDomain(dto) }
 
 	open fun toEntity(domain: Domain): Entity =

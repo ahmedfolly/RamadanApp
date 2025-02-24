@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.ramadanapp.features.media.presentation.main.ui.MainFragment"
+        android:name="com.example.ramadanapp.features.sections.presentation.ui.MainFragment"
         android:label="fragment_all_produts"
         tools:layout="@layout/main_fragment" >
         <action
@@ -25,9 +25,12 @@
         android:name="com.example.ramadanapp.features.media.presentation.playlist.ui.PlaylistFragment"
         android:label="fragment_playlist"
         tools:layout="@layout/fragment_playlist" >
+<!--        <argument-->
+<!--            android:name="recentPlayList"-->
+<!--            app:argType="com.example.ramadanapp.features.media.domain.model.StagedData" />-->
         <argument
-            android:name="recentPlayList"
-            app:argType="com.example.ramadanapp.features.media.domain.model.StagedData" />
+            android:name="categoryName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/savedVideosFragment"

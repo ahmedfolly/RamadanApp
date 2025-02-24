@@ -1,4 +1,4 @@
-package com.example.ramadanapp.features.media.presentation.main.ui
+package com.example.ramadanapp.features.sections.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -14,13 +14,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ramadanapp.common.presentation.showSnackbar
 import com.example.ramadanapp.databinding.MainFragmentBinding
-import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
 import com.example.ramadanapp.features.media.domain.model.Video
-import com.example.ramadanapp.features.media.presentation.main.mvi.MediaIntent
-import com.example.ramadanapp.features.media.presentation.main.mvi.MediaState
-import com.example.ramadanapp.features.media.presentation.main.mvi.MediaViewModel
-import com.example.ramadanapp.features.media.presentation.main.ui.adapters.PlayListAdapter
-import com.google.android.material.snackbar.Snackbar
+import com.example.ramadanapp.features.sections.presentation.mvi.MainViewModel
+import com.example.ramadanapp.features.sections.presentation.mvi.MainIntents
+import com.example.ramadanapp.features.sections.presentation.mvi.SectionsState
+import com.example.ramadanapp.features.sections.presentation.ui.adapters.CategoriesAdapter
+import com.example.ramadanapp.features.sections.presentation.ui.adapters.SectionsAdapter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,12 +30,12 @@ class MainFragment : Fragment() {
 	private lateinit var _binding: MainFragmentBinding
 	private val binding
 		get() = _binding
-	private val mediaViewModel: MediaViewModel by viewModels()
-	private lateinit var playlistAdapter: PlayListAdapter
+	private val mediaViewModel: MainViewModel by viewModels()
+	private lateinit var sectionsAdapter: SectionsAdapter
 	private lateinit var youTubePlayer: YouTubePlayer
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		playlistAdapter = PlayListAdapter(this)
+		sectionsAdapter = SectionsAdapter()
 	}
 
 	override fun onCreateView(
@@ -64,31 +63,28 @@ class MainFragment : Fragment() {
 
 	private fun mediaIntentSend() {
 		lifecycleScope.launch {
-			mediaViewModel.userIntentChannel.send(MediaIntent.LoadMedia)
+			mediaViewModel.userIntentChannel.send(MainIntents.LoadSections)
 		}
 	}
 
 	private fun mediaIntentRender() {
 		lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.STARTED) {
-				mediaViewModel.state.collect { mediaState ->
-					when (mediaState) {
-						is MediaState.Failure -> {
-							showSnackbar(mediaState.e.message.toString())
+				mediaViewModel.state.collect { mainState ->
+					when(mainState){
+						is SectionsState.Failure -> {
+							showSnackbar(mainState.e.message.toString())
 							binding.playlistsLoader.visibility = View.GONE
 						}
-
-						is MediaState.Idle    -> {}
-						is MediaState.Loading -> {
+						SectionsState.Idle       -> {}
+						SectionsState.Loading    -> {
 							binding.playlistsLoader.visibility = View.VISIBLE
 						}
-
-						is MediaState.Success -> {
-							val categorizedPlayList = mediaState.media.videos.groupBy {
-								it.category
-							}.map { CategorizedPlayList(it.key, it.value) }
-							playlistAdapter.submitList(categorizedPlayList)
+						is SectionsState.Success -> {
+							val sections = mainState.sections
+							sectionsAdapter.submitList(sections)
 							binding.playlistsLoader.visibility = View.GONE
+
 						}
 					}
 				}
@@ -100,7 +96,7 @@ class MainFragment : Fragment() {
 		binding.rvPlayListContainer.apply {
 			setHasFixedSize(true)
 			layoutManager = LinearLayoutManager(requireContext())
-			adapter = playlistAdapter
+			adapter = sectionsAdapter
 		}
 	}
 
@@ -141,14 +137,14 @@ class MainFragment : Fragment() {
 
 	private fun getLastSeenVideIntentSend() {
 		lifecycleScope.launch {
-			mediaViewModel.userIntentChannel.send(MediaIntent.GetLastSeenVideo)
+			mediaViewModel.userIntentChannel.send(MainIntents.GetLastSeenVideo)
 		}
 	}
 
 	private fun goToSavedVideosScreen() {
 		binding.openSavedVideosScreen.setOnClickListener {
 			val fromMainToSavedVideosScreenAction =
-				MainFragmentDirections.actionMainFragmentToSavedVideosFragment()
+				MainFragmentDirections.Companion.actionMainFragmentToSavedVideosFragment()
 			findNavController().navigate(fromMainToSavedVideosScreenAction)
 		}
 	}

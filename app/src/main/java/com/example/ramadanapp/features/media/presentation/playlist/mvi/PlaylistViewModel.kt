@@ -5,11 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.ramadanapp.common.domain.models.Resource
 import com.example.ramadanapp.common.presentation.RamadanAppViewModel
 import com.example.ramadanapp.features.media.domain.interactors.DeleteVideoUC
-import com.example.ramadanapp.features.media.domain.interactors.GetLastSeenUC
+import com.example.ramadanapp.features.media.domain.interactors.GetMediaUC
 import com.example.ramadanapp.features.media.domain.interactors.GetSavedVideoByIdUC
 import com.example.ramadanapp.features.media.domain.interactors.SaveLastSeenUC
 import com.example.ramadanapp.features.media.domain.interactors.SaveVideoUC
-import com.example.ramadanapp.features.media.domain.model.StagedData
 import com.example.ramadanapp.features.media.domain.model.Video
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,12 +25,13 @@ class PlaylistViewModel @Inject constructor(
 	private val saveVideoUC: SaveVideoUC,
 	private val deleteVideoUC: DeleteVideoUC,
 	private val saveLastSeenUC: SaveLastSeenUC,
+	private val getMediaUC: GetMediaUC
 ) :
 	RamadanAppViewModel<PlaylistIntent, PlaylistState>(
 		PlaylistState.Idle
 	) {
-	private val _playlistState: MutableStateFlow<StagedData?> = MutableStateFlow(null)
-	val playlistState = _playlistState.asStateFlow()
+	private val _playlistState: MutableStateFlow<Video?> = MutableStateFlow(null)
+	val playingVideoState = _playlistState.asStateFlow()
 
 	private val _savedVideoState: MutableStateFlow<Boolean> = MutableStateFlow(false)
 	val savedVideoState = _savedVideoState.asStateFlow()
@@ -42,11 +42,23 @@ class PlaylistViewModel @Inject constructor(
 					is PlaylistIntent.GetSavedVideoById -> getSavedVideoById(intent.videoId)
 					is PlaylistIntent.SaveOrDeleteVideo -> saveOrDeleteVideo(intent.video)
 					is PlaylistIntent.SaveLastSeenVideo -> saveLastSeenVideo(intent.video)
+					is PlaylistIntent.LoadSectionItems  -> loadSectionVideos(intent.categoryName)
 				}
 			}
 		}
 	}
 
+	private fun loadSectionVideos(categoryName:String){
+		viewModelScope.launch{
+			getMediaUC(categoryName).collect{response->
+				when(response){
+					is Resource.Failure -> {}
+					Resource.Loading    -> {}
+					is Resource.Success -> setState(PlaylistState.Success(response.model))
+				}
+			}
+		}
+	}
 	private fun getSavedVideoById(videoId: String) {
 		viewModelScope.launch(Dispatchers.IO) {
 			val videoResponse = getSavedVideoUC(videoId)
@@ -58,13 +70,13 @@ class PlaylistViewModel @Inject constructor(
 		}
 	}
 
-	fun setInitialPlaylistState(newPlaylist: StagedData) {
+	fun setInitialPlaylistState(newPlaylist: Video) {
 		if (_playlistState.value == null) {
 			_playlistState.update { newPlaylist }
 		}
 	}
 
-	fun updatePlaylistState(newPlaylist: StagedData) {
+	fun updateVideoState(newPlaylist: Video) {
 		_playlistState.update {
 			newPlaylist
 		}

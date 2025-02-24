@@ -9,60 +9,68 @@
     android:layoutDirection="rtl"
     tools:context=".features.media.presentation.playlist.ui.PlaylistFragment">
 
-    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/youtube_player_view"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:id="@+id/playing_video_layout"
+        android:visibility="gone">
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/youtube_player_view"/>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/LargeText"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:id="@+id/tvPlayingVideoTitle"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/MediumText"
-                android:textSize="18sp"
-                android:id="@+id/tvPlayingVideoCategory"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/LargeText"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:id="@+id/tvPlayingVideoTitle"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumText"
+                    android:textSize="18sp"
+                    android:id="@+id/tvPlayingVideoCategory"/>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/share_24px"
+                android:id="@+id/icShare"
+                android:layout_marginHorizontal="8dp"/>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:id="@+id/save_delete_loader"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/bookmark_24px_empty"
+                android:id="@+id/icSave"
+                android:layout_margin="8dp"/>
+
         </LinearLayout>
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/share_24px"
-            android:id="@+id/icShare"
-            android:layout_marginHorizontal="8dp"/>
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:indeterminate="true"
-            android:visibility="gone"
-            android:id="@+id/save_delete_loader"/>
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/bookmark_24px_empty"
-            android:id="@+id/icSave"
-            android:layout_margin="8dp"/>
-
     </LinearLayout>
+
     <TextView
         android:textColor="@color/black"
         android:layout_width="wrap_content"
