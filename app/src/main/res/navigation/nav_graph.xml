@@ -37,4 +37,9 @@
         android:name="com.example.ramadanapp.features.media.presentation.saved.ui.SavedVideosFragment"
         android:label="fragment_saved_videos"
         tools:layout="@layout/fragment_saved_videos" />
+    <action
+        android:id="@+id/global_action_main"
+        app:destination="@id/mainFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/mainFragment"/>
 </navigation>

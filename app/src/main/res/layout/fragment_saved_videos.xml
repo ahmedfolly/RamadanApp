@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
     tools:context=".features.media.presentation.saved.ui.SavedVideosFragment">
 
 

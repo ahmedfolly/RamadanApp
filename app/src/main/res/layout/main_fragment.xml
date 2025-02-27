@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".features.sections.presentation.ui.MainFragment">
+    android:background="@color/background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <RelativeLayout
@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#9BB4A1"
+                android:gravity="center"
                 android:padding="16dp">
 
                 <TextView
@@ -42,16 +43,9 @@
                     android:textColor="@color/white"/>
 
                 <ImageView
-                    android:id="@+id/searchIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/search_24px"
-                    android:layout_margin="4dp"/>
-
-                <ImageView
                     android:id="@+id/open_saved_videos_screen"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:src="@drawable/bookmark_24px_fill"
                     android:layout_margin="4dp"
                     app:tint="@color/white"/>
@@ -65,7 +59,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/white"
-                android:scaleType="centerCrop"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
@@ -77,22 +70,38 @@
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPlayListContainer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        tools:listitem="@layout/playlist_item"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/hadith_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#9BB4A1"
+            android:padding="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+          >
+            <TextView
+                style="@style/MediumText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textSize="15sp"
+                android:text="@string/hadith"
+                android:textColor="@color/white" />
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlayListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            />
+    </LinearLayout>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/playlists_loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="#9BB4A1"
-        android:visibility="gone"
-        app:layout_anchor="@id/rvPlayListContainer"
-        app:layout_anchorGravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

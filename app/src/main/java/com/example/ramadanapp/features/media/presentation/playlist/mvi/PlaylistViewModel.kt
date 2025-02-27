@@ -48,17 +48,24 @@ class PlaylistViewModel @Inject constructor(
 		}
 	}
 
-	private fun loadSectionVideos(categoryName:String){
-		viewModelScope.launch{
-			getMediaUC(categoryName).collect{response->
-				when(response){
-					is Resource.Failure -> {}
-					Resource.Loading    -> {}
+	private fun loadSectionVideos(categoryName: String) {
+		viewModelScope.launch {
+			getMediaUC(categoryName).collect { response ->
+				when (response) {
+					is Resource.Failure -> {
+						setState(PlaylistState.Failure(response.exception))
+					}
+
+					Resource.Loading    -> {
+						setState(PlaylistState.Loading)
+					}
+
 					is Resource.Success -> setState(PlaylistState.Success(response.model))
 				}
 			}
 		}
 	}
+
 	private fun getSavedVideoById(videoId: String) {
 		viewModelScope.launch(Dispatchers.IO) {
 			val videoResponse = getSavedVideoUC(videoId)
@@ -67,12 +74,6 @@ class PlaylistViewModel @Inject constructor(
 					_savedVideoState.update { response.model.videoId.isNotEmpty() }
 				}
 			}
-		}
-	}
-
-	fun setInitialPlaylistState(newPlaylist: Video) {
-		if (_playlistState.value == null) {
-			_playlistState.update { newPlaylist }
 		}
 	}
 
@@ -102,8 +103,8 @@ class PlaylistViewModel @Inject constructor(
 
 	private fun saveLastSeenVideo(video: Video) {
 		viewModelScope.launch {
-			 saveLastSeenUC(video).collect {response->
-				if (response is Resource.Success){
+			saveLastSeenUC(video).collect { response ->
+				if (response is Resource.Success) {
 					Log.d("TAG", "saveLastSeenVideo: ${response.model}")
 				}
 			}

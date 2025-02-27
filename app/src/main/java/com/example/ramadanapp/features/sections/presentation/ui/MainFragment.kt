@@ -2,23 +2,19 @@ package com.example.ramadanapp.features.sections.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ramadanapp.common.presentation.showSnackbar
+import com.example.ramadanapp.common.presentation.ui.BaseFragment
 import com.example.ramadanapp.databinding.MainFragmentBinding
 import com.example.ramadanapp.features.media.domain.model.Video
-import com.example.ramadanapp.features.sections.presentation.mvi.MainViewModel
 import com.example.ramadanapp.features.sections.presentation.mvi.MainIntents
+import com.example.ramadanapp.features.sections.presentation.mvi.MainViewModel
 import com.example.ramadanapp.features.sections.presentation.mvi.SectionsState
-import com.example.ramadanapp.features.sections.presentation.ui.adapters.CategoriesAdapter
 import com.example.ramadanapp.features.sections.presentation.ui.adapters.SectionsAdapter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -26,10 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
-	private lateinit var _binding: MainFragmentBinding
-	private val binding
-		get() = _binding
+class MainFragment : BaseFragment<MainFragmentBinding>(
+	MainFragmentBinding::inflate
+){
 	private val mediaViewModel: MainViewModel by viewModels()
 	private lateinit var sectionsAdapter: SectionsAdapter
 	private lateinit var youTubePlayer: YouTubePlayer
@@ -38,17 +33,7 @@ class MainFragment : Fragment() {
 		sectionsAdapter = SectionsAdapter()
 	}
 
-	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View? {
-		_binding = MainFragmentBinding.inflate(inflater, container, false)
-		lifecycle.addObserver(binding.lastSeenYoutubePlayerView)
-		return binding.root
-	}
-
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
+	override fun initViews() {
 		mediaIntentRender()
 		mediaIntentSend()
 
@@ -73,18 +58,17 @@ class MainFragment : Fragment() {
 				mediaViewModel.state.collect { mainState ->
 					when(mainState){
 						is SectionsState.Failure -> {
-							showSnackbar(mainState.e.message.toString())
-							binding.playlistsLoader.visibility = View.GONE
+							showSnackBar(mainState.e.message.toString())
+							hideLoadingDialog()
 						}
 						SectionsState.Idle       -> {}
 						SectionsState.Loading    -> {
-							binding.playlistsLoader.visibility = View.VISIBLE
+							showLoadingDialog()
 						}
 						is SectionsState.Success -> {
 							val sections = mainState.sections
 							sectionsAdapter.submitList(sections)
-							binding.playlistsLoader.visibility = View.GONE
-
+							hideLoadingDialog()
 						}
 					}
 				}
@@ -115,9 +99,7 @@ class MainFragment : Fragment() {
 		if (::youTubePlayer.isInitialized) {
 			val videoId =
 				if (video.videoId.isEmpty()) "tldDnDX5UKM" else video.videoId //default videoId if there is no last seen video
-			Log.d("TAG", "playLastSeenVideo: $videoId")
-			youTubePlayer.loadVideo(videoId, 0f)
-			youTubePlayer.pause()
+			youTubePlayer.cueVideo(videoId, 0f)
 		}
 	}
 

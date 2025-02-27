@@ -11,32 +11,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#9BB4A1"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow_back_24px"
+            android:id="@+id/back_to_main"
+            android:layout_margin="8dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:layout_margin="8dp"
+            android:text="@string/playlist"
+            style="@style/LargeText"
+            android:textColor="@color/white"
+            android:id="@+id/tv_welcome_message"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/playing_video_layout"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:id="@+id/youtube_player_view"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:padding="8dp">
-
+                android:layout_marginHorizontal="8dp"
+                >
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/LargeText"
+                    style="@style/MediumText"
                     android:maxLines="2"
                     android:ellipsize="end"
                     android:textSize="20sp"
@@ -45,8 +67,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/MediumText"
-                    android:textSize="18sp"
+                    style="@style/SmallText"
+                    android:textSize="15sp"
                     android:id="@+id/tvPlayingVideoCategory"/>
             </LinearLayout>
             <ImageView
@@ -74,18 +96,16 @@
     <TextView
         android:textColor="@color/black"
         android:layout_width="wrap_content"
-        android:background="@drawable/title_txt_background"
-        android:padding="16dp"
         android:layout_height="wrap_content"
         android:text="@string/more_videos"
         android:layout_marginHorizontal="16dp"
         style="@style/MediumText"
-        android:layout_marginVertical="8dp"
+        android:layout_marginTop="8dp"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="8dp"
         tools:listitem="@layout/video_item_inner"
         android:id="@+id/rvVideosContainerInsidePlaylist"/>
 </LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center|top"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/_983806_signal_error_technology_internet_wireless_icon_9"
+            android:layout_gravity="center"
+            android:id="@+id/no_internet_img"
+            android:layout_margin="4dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/internet_state_message"
+            style="@style/LargeText"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
