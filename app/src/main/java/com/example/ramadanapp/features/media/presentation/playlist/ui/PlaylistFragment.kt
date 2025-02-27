@@ -1,5 +1,6 @@
 package com.example.ramadanapp.features.media.presentation.playlist.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -44,6 +45,7 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(
 		initialSetup()
 		lifecycle.addObserver(binding.youtubePlayerView)
 		backBtnClicked()
+		shareBtnClicked()
 	}
 
 	private fun initialSetup() {
@@ -187,7 +189,20 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(
 			backToMain()
 		}
 	}
-
+	private fun shareUrl(url: String) {
+		val shareIntent = Intent(Intent.ACTION_SEND).apply {
+			type = "text/plain"
+			putExtra(Intent.EXTRA_TEXT, url)
+		}
+		startActivity(Intent.createChooser(shareIntent, "Share via"))
+	}
+	private fun shareBtnClicked(){
+		binding.icShare.setOnClickListener{
+			playlistViewModel.playingVideoState.value?.let {
+				shareUrl(it.url)
+			}
+		}
+	}
 	override fun videoClicker(video: Video) {
 		binding.playingVideoLayout.visibility = View.VISIBLE
 		playSelectedVideo(video.videoId)
