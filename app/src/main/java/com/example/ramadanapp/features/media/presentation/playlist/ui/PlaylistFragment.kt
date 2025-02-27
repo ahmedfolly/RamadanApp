@@ -2,19 +2,17 @@ package com.example.ramadanapp.features.media.presentation.playlist.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ramadanapp.R
+import com.example.ramadanapp.common.presentation.ui.BaseFragment
 import com.example.ramadanapp.databinding.FragmentPlaylistBinding
-import com.example.ramadanapp.features.media.domain.model.StagedData
 import com.example.ramadanapp.features.media.domain.model.Video
 import com.example.ramadanapp.features.media.presentation.playlist.mvi.PlaylistIntent
 import com.example.ramadanapp.features.media.presentation.playlist.mvi.PlaylistState
@@ -24,15 +22,12 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import com.example.ramadanapp.R
-import kotlinx.coroutines.delay
-import java.util.concurrent.atomic.AtomicBoolean
 
 @AndroidEntryPoint
-class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
+class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(
+	FragmentPlaylistBinding::inflate
+), InnerVideosAdapter.OnVideoClicker {
 	private val playlistFragmentArgs: PlaylistFragmentArgs by navArgs()
-	private lateinit var playlist: StagedData
-	private lateinit var binding: FragmentPlaylistBinding
 	private lateinit var innerVideosAdapter: InnerVideosAdapter
 	private lateinit var youTubePlayerInstance: YouTubePlayer
 	private val playlistViewModel: PlaylistViewModel by viewModels()
@@ -41,39 +36,33 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 		innerVideosAdapter = InnerVideosAdapter(this)
 	}
 
-	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
-		savedInstanceState: Bundle?
-	): View? {
-		binding = FragmentPlaylistBinding.inflate(inflater, container, false)
-		lifecycle.addObserver(binding.youtubePlayerView)
-		return binding.root
-	}
-
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+	}
+
+	override fun initViews() {
 		initialSetup()
-		bookmarkClicked()
-		collectSavedVideoState()
+		lifecycle.addObserver(binding.youtubePlayerView)
+		backBtnClicked()
 	}
 
 	private fun initialSetup() {
+		val categoryName = playlistFragmentArgs.categoryName
+		renderState()
+		sendLoadSectionVideosIntent(categoryName)
 		setupInnerVideosContainer()
-		playlist = playlistFragmentArgs.recentPlayList
-		playlistViewModel.setInitialPlaylistState(playlist)
-		collectPlaylistData()
-		playlistViewModel.playlistState.value?.let {
-			checkIfVideoSaved(it.playingVideo)
-		}
+		firstSetupSelectedVideo()
+		bookmarkClicked()
+		collectPlayingVideoData()
+		collectSavedVideoState()
 	}
 
-	private fun firstSetupSelectedVideo(videoId: String) {
+	private fun firstSetupSelectedVideo() {
 		binding.youtubePlayerView.addYouTubePlayerListener(object :
 			AbstractYouTubePlayerListener() {
 			override fun onReady(youTubePlayer: YouTubePlayer) {
 				super.onReady(youTubePlayer)
 				youTubePlayerInstance = youTubePlayer
-				playSelectedVideo(videoId)
 			}
 		})
 	}
@@ -91,7 +80,7 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 	private fun setupViews(video: Video) {
 		with(binding) {
 			tvPlayingVideoTitle.text = video.title
-			tvPlayingVideoCategory.text = video.subCategory
+			tvPlayingVideoCategory.text = video.category
 		}
 	}
 
@@ -123,20 +112,13 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 		binding.icSave.setImageResource(R.drawable.bookmark_24px_empty)
 	}
 
-	private fun collectPlaylistData() {
+	private fun collectPlayingVideoData() {
 		lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.STARTED) {
-				playlistViewModel.playlistState.collect { playlist ->
-					if (playlist != null) {
-						with(playlist) {
-							val videos = relatedVideos
-							val playingVideo = playingVideo
-							innerVideosAdapter.submitList(videos)
-							setupViews(playingVideo)
-							firstSetupSelectedVideo(playingVideo.videoId)
-							sendSaveLastSeenVideoIntent(playingVideo)
-						}
-
+				playlistViewModel.playingVideoState.collect { video ->
+					if (video != null) {
+						setupViews(video)
+						checkIfVideoSaved(video)
 					}
 				}
 			}
@@ -151,8 +133,8 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 
 	private fun sendSaveOrDeleteIntent() {
 		lifecycleScope.launch {
-			playlistViewModel.playlistState.value?.let {
-				playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveOrDeleteVideo(it.playingVideo))
+			playlistViewModel.playingVideoState.value?.let {
+				playlistViewModel.userIntentChannel.send(PlaylistIntent.SaveOrDeleteVideo(it))
 			}
 		}
 	}
@@ -171,14 +153,46 @@ class PlaylistFragment : Fragment(), InnerVideosAdapter.OnVideoClicker {
 		}
 	}
 
+	private fun renderState() {
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.STARTED) {
+				playlistViewModel.state.collect { state ->
+					when (state) {
+						is PlaylistState.Failure -> {
+							showSnackBar(state.error.toString())
+							hideLoadingDialog()
+						}
+						PlaylistState.Idle       -> {}
+						PlaylistState.Loading    -> {
+							showLoadingDialog()
+						}
+						is PlaylistState.Success -> {
+							innerVideosAdapter.submitList(state.playlist.videos)
+							hideLoadingDialog()
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private fun sendLoadSectionVideosIntent(categoryName: String) {
+		lifecycleScope.launch {
+			playlistViewModel.userIntentChannel.send(PlaylistIntent.LoadSectionItems(categoryName))
+		}
+	}
+
+	private fun backBtnClicked(){
+		binding.backToMain.setOnClickListener{
+			backToMain()
+		}
+	}
+
 	override fun videoClicker(video: Video) {
+		binding.playingVideoLayout.visibility = View.VISIBLE
 		playSelectedVideo(video.videoId)
-		setupViews(video)
 
-		playlist = playlist.copy(playingVideo = video)
-		playlistViewModel.updatePlaylistState(playlist)
-
-		checkIfVideoSaved(video)
+		playlistViewModel.updateVideoState(video)
 
 		sendSaveLastSeenVideoIntent(video)
 	}

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ramadanapp.databinding.PlaylistItemBinding
 import com.example.ramadanapp.features.media.domain.model.CategorizedPlayList
-import com.example.ramadanapp.features.media.presentation.main.ui.MainFragment
+import com.example.ramadanapp.features.sections.presentation.ui.MainFragment
 
 class PlayListAdapter(val mainFragment: MainFragment) :
 	ListAdapter<CategorizedPlayList, PlayListAdapter.PlayListVH>(PlayListDiffUtil()) {

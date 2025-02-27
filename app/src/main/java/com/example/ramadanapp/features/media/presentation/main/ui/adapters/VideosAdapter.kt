@@ -9,8 +9,8 @@ import com.example.ramadanapp.common.utils.videoThumbnailUrl
 import com.example.ramadanapp.databinding.VideoItemMainBinding
 import com.example.ramadanapp.features.media.domain.model.StagedData
 import com.example.ramadanapp.features.media.domain.model.Video
-import com.example.ramadanapp.features.media.presentation.main.ui.MainFragment
-import com.example.ramadanapp.features.media.presentation.main.ui.MainFragmentDirections
+import com.example.ramadanapp.features.sections.presentation.ui.MainFragment
+import com.example.ramadanapp.features.sections.presentation.ui.MainFragmentDirections
 
 class VideosAdapter(val mainFragment: MainFragment, val videos: List<Video>): RecyclerView.Adapter<VideosAdapter.VideosVH>() {
 	private lateinit var binding: VideoItemMainBinding
@@ -43,8 +43,8 @@ class VideosAdapter(val mainFragment: MainFragment, val videos: List<Video>): Re
 				ivVideo.load(videoThumbnailUrl(videoId))
 				root.setOnClickListener{
 					val newObject = StagedData(video,videos)
-					val action = MainFragmentDirections.actionMainFragmentToPlaylistFragment(newObject)
-					mainFragment.findNavController().navigate(action)
+//					val action = MainFragmentDirections.actionMainFragmentToPlaylistFragment(newObject)
+//					mainFragment.findNavController().navigate(action)
 				}
 			}
 		}

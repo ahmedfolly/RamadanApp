@@ -1,11 +1,11 @@
-package com.example.ramadanapp.features.media.presentation.main.mvi
+package com.example.ramadanapp.features.sections.presentation.mvi
 
 import androidx.lifecycle.viewModelScope
 import com.example.ramadanapp.common.domain.models.Resource
 import com.example.ramadanapp.common.presentation.RamadanAppViewModel
 import com.example.ramadanapp.features.media.domain.interactors.GetLastSeenUC
-import com.example.ramadanapp.features.media.domain.interactors.GetMediaUC
 import com.example.ramadanapp.features.media.domain.model.Video
+import com.example.ramadanapp.features.sections.domain.interactors.GetMainSectionsUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class MediaViewModel @Inject constructor(
-	private val getMediaUC: GetMediaUC,
+class MainViewModel @Inject constructor(
+	private val getMainSectionsUC: GetMainSectionsUC,
 	private val getLastSeenUC: GetLastSeenUC
-) : RamadanAppViewModel<MediaIntent, MediaState>(
-	MediaState.Idle
+) : RamadanAppViewModel<MainIntents, SectionsState>(
+	SectionsState.Idle
 ) {
 	private val _lastSeenVideoState: MutableStateFlow<Video?> = MutableStateFlow(null)
 	val lastSeenVideoState = _lastSeenVideoState.asStateFlow()
@@ -27,25 +27,36 @@ class MediaViewModel @Inject constructor(
 		viewModelScope.launch {
 			userIntentChannel.consumeAsFlow().collect { userIntent ->
 				when (userIntent) {
-					MediaIntent.LoadMedia        -> loadMedia()
-					MediaIntent.GetLastSeenVideo -> getLastSeenVideo()
+					MainIntents.GetLastSeenVideo -> getLastSeenVideo()
+					MainIntents.LoadSections     -> loadSections()
 				}
 			}
 		}
 	}
 
-	private fun loadMedia() {
+	private fun loadSections() {
 		viewModelScope.launch {
-			val mediaResponse = getMediaUC()
-			mediaResponse.collect { response ->
+			getMainSectionsUC().collect { response ->
 				when (response) {
-					is Resource.Failure -> setState(MediaState.Failure(response.exception))
-					is Resource.Loading -> setState(MediaState.Loading)
-					is Resource.Success -> setState(MediaState.Success(response.model))
+					is Resource.Failure -> setState(SectionsState.Failure(response.exception))
+					Resource.Loading    -> setState(SectionsState.Loading)
+					is Resource.Success -> setState(SectionsState.Success(response.model))
 				}
 			}
 		}
 	}
+//	private fun loadMedia() {
+//		viewModelScope.launch {
+//			val mediaResponse = getMediaUC()
+//			mediaResponse.collect { response ->
+//				when (response) {
+//					is Resource.Failure -> setState(MediaState.Failure(response.exception))
+//					is Resource.Loading -> setState(MediaState.Loading)
+//					is Resource.Success -> setState(MediaState.Success(response.model))
+//				}
+//			}
+//		}
+//	}
 
 	private fun getLastSeenVideo() {
 		viewModelScope.launch {
@@ -60,6 +71,6 @@ class MediaViewModel @Inject constructor(
 	}
 
 	override fun clearState() {
-		setState(MediaState.Idle)
+		setState(SectionsState.Idle)
 	}
 }
