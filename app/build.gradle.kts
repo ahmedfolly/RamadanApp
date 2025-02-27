@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-	namespace = "com.example.ramadanapp"
+	namespace = "com.edu.da3wa.ramadanapp"
 	compileSdk =35
 
 	defaultConfig {
-		applicationId = "com.example.ramadanapp"
+		applicationId = "com.edu.da3wa.ramadanapp"
 		minSdk = 24
 		targetSdk = 34
 		versionCode = 1
