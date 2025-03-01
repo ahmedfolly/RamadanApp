@@ -70,38 +70,40 @@
         </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPlayListContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/hadith_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#9BB4A1"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-          >
-            <TextView
-                style="@style/MediumText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textSize="15sp"
-                android:text="@string/hadith"
-                android:textColor="@color/white" />
-        </com.google.android.material.card.MaterialCardView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPlayListContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            />
-    </LinearLayout>
+        android:layout_margin="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+<!--&lt;!&ndash;        <com.google.android.material.card.MaterialCardView&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/hadith_card"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginHorizontal="16dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_marginTop="16dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:backgroundTint="#9BB4A1"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:padding="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:cardCornerRadius="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:cardElevation="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;          >&ndash;&gt;-->
+<!--&lt;!&ndash;            <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                style="@style/MediumText"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_margin="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:textSize="15sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:text="@string/hadith"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:textColor="@color/white" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </com.google.android.material.card.MaterialCardView>&ndash;&gt;-->
+<!--     -->
+<!--    </LinearLayout>-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
